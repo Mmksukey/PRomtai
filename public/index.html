@@ -3,15 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Prompt AI Engineer Generator</title>
+  <title>Prompt AI Engineer Generator v2</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header><h1>Prompt AI Engineer Generator</h1></header>
+  <header><h1>Prompt AI Engineer Generator <small class="muted">v2</small></h1></header>
 
   <main>
     <section class="card">
       <form id="prompt-form">
+        <div class="modebar">
+          <label>โหมด
+            <select name="mode" id="mode">
+              <option value="general" selected>ทั่วไป</option>
+              <option value="coding">Coding / Debugging</option>
+              <option value="media">ภาพ / วิดีโอ</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Base fields -->
+        <h3>ฟิลด์พื้นฐาน</h3>
         <div class="grid">
           <label>เป้าหมาย
             <textarea name="goal" placeholder="เช่น สร้างสคริปต์อธิบายโค้ด 3 นาที..."></textarea>
@@ -22,7 +34,7 @@
           </label>
 
           <label>ขอบเขตและบริบท
-            <textarea name="scope" placeholder="เทคโนโลยี ข้อจำกัด โครงการอยู่เฟสไหน ฯลฯ"></textarea>
+            <textarea name="scope" placeholder="เทคโนโลยี โจทย์ โครงการอยู่เฟสไหน ฯลฯ"></textarea>
           </label>
 
           <label>เครื่องมือ/ข้อจำกัดเทคโนโลยี
@@ -69,6 +81,44 @@
           </label>
         </div>
 
+        <!-- Coding section -->
+        <div id="sec-coding" class="subsec hidden">
+          <h3>Coding / Debugging</h3>
+          <div class="grid">
+            <label>ภาษาเขียนโปรแกรม <input name="codeLanguage" placeholder="เช่น Python, JS, C++" /></label>
+            <label>Runtime/แพลตฟอร์ม <input name="runtimeEnv" placeholder="เช่น Node 20, Python 3.11, ESP32-IDF 5.x" /></label>
+            <label>ลิงก์โค้ด/ไฟล์ที่เกี่ยวข้อง <input name="repoUrl" placeholder="URL, ไฟล์ หรือ path" /></label>
+            <label>Entry point/ไฟล์หลัก <input name="entryPoint" placeholder="เช่น app.py, server.js" /></label>
+            <label>Error log/Stack trace <textarea name="errorMessage" placeholder="วาง error ที่เจอ"></textarea></label>
+            <label>Expected behavior <textarea name="expectedBehavior" placeholder="ควรเกิดอะไรขึ้น"></textarea></label>
+            <label>Test inputs <textarea name="testInputs" placeholder="อินพุตหรือเคสทดสอบ"></textarea></label>
+            <label>Performance target <input name="performanceTarget" placeholder="เช่น latency < 50ms, ใช้ RAM < 1GB" /></label>
+          </div>
+        </div>
+
+        <!-- Media section -->
+        <div id="sec-media" class="subsec hidden">
+          <h3>ภาพ / วิดีโอ</h3>
+          <div class="grid">
+            <label>ชนิดสื่อ
+              <select name="mediaType">
+                <option value="image">ภาพ</option>
+                <option value="video">วิดีโอ</option>
+              </select>
+            </label>
+            <label>วัตถุประสงค์ <input name="purpose" placeholder="เช่น โฆษณา โพสต์โซเชียล moodboard" /></label>
+            <label>สไตล์/คีย์เวิร์ด <input name="style" placeholder="เช่น cinematic, macro, isometric, watercolor" /></label>
+            <label>ความละเอียด <input name="resolution" placeholder="เช่น 1024x1024 หรือ 1920x1080" /></label>
+            <label>อัตราส่วนภาพ <input name="aspectRatio" placeholder="เช่น 1:1, 16:9, 9:16" /></label>
+            <label>โทนสี/พาเล็ตต์ <input name="colorPalette" placeholder="เช่น pastel, neon, monochrome" /></label>
+            <label>กล้อง/ช็อต <input name="camera" placeholder="เช่น 35mm, f/2.8, top-down, long shot" /></label>
+            <label>ความยาววิดีโอ <input name="duration" placeholder="เช่น 6s, 30s (ถ้าเป็นวิดีโอ)" /></label>
+            <label>แพลตฟอร์มเป้าหมาย <input name="platform" placeholder="เช่น IG Reels, YouTube, TikTok" /></label>
+            <label>อ้างอิง/ลิงก์ <textarea name="references" placeholder="แนบลิงก์ภาพหรือคำอธิบายอ้างอิง"></textarea></label>
+            <label>Negative (สิ่งที่ไม่ต้องการ) <textarea name="negative" placeholder="สิ่งที่ต้องห้ามเกิดขึ้น"></textarea></label>
+          </div>
+        </div>
+
         <div class="actions">
           <button type="submit" id="gen-btn">สร้าง Prompt</button>
           <button type="button" id="copy-btn" class="secondary">คัดลอก</button>
@@ -84,7 +134,7 @@
   </main>
 
   <footer>
-    <small>Powered by Gemini API ผ่านเซิร์ฟเวอร์ proxy. ห้ามใส่ API key ใน client.</small>
+    <small>เซิร์ฟเวอร์ proxy ไป Gemini ▸ ห้ามใส่ API key ใน client.</small>
   </footer>
 
   <script src="app.js"></script>

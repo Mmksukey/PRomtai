@@ -3,12 +3,22 @@ const resultEl = document.getElementById("result");
 const modelEl = document.getElementById("model");
 const genBtn = document.getElementById("gen-btn");
 const copyBtn = document.getElementById("copy-btn");
+const modeSel = document.getElementById("mode");
+const secCoding = document.getElementById("sec-coding");
+const secMedia  = document.getElementById("sec-media");
+
+function updateSections() {
+  const m = modeSel.value;
+  secCoding.classList.toggle("hidden", m !== "coding");
+  secMedia.classList.toggle("hidden",  m !== "media");
+}
+modeSel.addEventListener("change", updateSections);
+updateSections();
 
 function getFormData() {
   const fd = new FormData(form);
   const payload = {};
-  for (const [k, v] of fd.entries()) payload[k] = v.trim();
-  // range returns string, keep it
+  for (const [k,v] of fd.entries()) payload[k] = v.trim();
   return payload;
 }
 
@@ -27,7 +37,7 @@ form.addEventListener("submit", async (e) => {
     });
     const json = await r.json();
     resultEl.textContent = json.prompt || "(ไม่มีผลลัพธ์)";
-    modelEl.textContent = `model: ${json.model}`;
+    modelEl.textContent = `mode: ${json.mode} • model: ${json.model}`;
   } catch (err) {
     console.error(err);
     resultEl.textContent = "เกิดข้อผิดพลาดในการเรียก API";
@@ -41,5 +51,5 @@ copyBtn.addEventListener("click", async () => {
   if (!text) return;
   await navigator.clipboard.writeText(text);
   copyBtn.textContent = "คัดลอกแล้ว";
-  setTimeout(() => (copyBtn.textContent = "คัดลอก"), 1200);
+  setTimeout(()=>copyBtn.textContent="คัดลอก", 1200);
 });
