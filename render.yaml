@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: prompt-ai-engineer-generator
+    env: node
+    plan: free
+    region: singapore
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: MODEL_ID
+        value: gemini-1.5-flash
